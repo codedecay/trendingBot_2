@@ -140,9 +140,6 @@ namespace trendingBot2
                     curResults.totTime = curResults.sw.Elapsed.Hours.ToString("00") + ":" + curResults.sw.Elapsed.Minutes.ToString("00") + ":" + curResults.sw.Elapsed.Seconds.ToString("00");
                     if (curResults.sw.Elapsed.Hours == 0 && curResults.sw.Elapsed.Minutes == 0) curResults.totTime = "< 1 minute";
 
-                    lblReliability.ForeColor = getAccuracyColor(curResults.config.fitConfig.expectedAccuracy);
-                    lblReliability.Refresh();
-
                     IO curIO = new IO();
                     curIO.writeOutputs(curResults);
                     e.Result = curResults;
@@ -166,6 +163,8 @@ namespace trendingBot2
                 {
                     //The calculations have been completed
                     Results curResults = (Results)e.Result;
+                    lblReliability.ForeColor = getAccuracyColor(curResults.config.fitConfig.expectedAccuracy);
+                    lblReliability.Refresh();
                     populateCombinatoricsLstBx(curResults.combinations, "Total time: " + curResults.totTime); //Populating the main ListBox with all the valid solutions (if any)
                     enableControls(true, true); //Enable/disable some controls
                 }
