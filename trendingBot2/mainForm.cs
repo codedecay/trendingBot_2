@@ -809,7 +809,6 @@ namespace trendingBot2
                     curPopUp.Controls.Clear();
                 }
 
-                lblReliability.ForeColor = getAccuracyColor(((FitConfig)cmbBxAccuracy.Tag).expectedAccuracy);
                 ListView curLstVw = createReliabilityLstVw(curHeight, curValidComb);
                 curPopUp.Controls.Add(curLstVw);
 
