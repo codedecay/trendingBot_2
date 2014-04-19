@@ -40,12 +40,12 @@ namespace trendingBot2
                             }
                             else
                             {
-                                //Data line
+                                //Input values line
                                 allInputs = readLine(temp, allInputs);
 
                                 if (allInputs.inputs.Count >= 0.75 * Int32.MaxValue)
                                 {
-                                    allInputs.maxRowConsidered = allInputs.inputs.Count; //Big enough number of rows
+                                    allInputs.maxRowConsidered = allInputs.inputs.Count; //Too many rows. Some of them will be ignored
                                     break;
                                 }
                             }
@@ -102,7 +102,7 @@ namespace trendingBot2
             string tempString = fullRow;
             
             //Loop iterating through all the elements in the row and replacing the commas to be ignored (i.e., ones in quotes) with a different string.
-            //In this way, the Split function below will ignore them; the proper division in columns will be performed; and the substitution strings will be converted back to commas.
+            //In this way, the Split function below will ignore them; the proper division in columns will be performed; and the substitution strings will be converted back to commas
             foreach (char c in tempString)
             {
                 if (openingQuote || openingQuote2) textSoFar = textSoFar + c.ToString();
@@ -148,7 +148,7 @@ namespace trendingBot2
         }
 
         //Method extracting the values for all the columns in the first row (heading). The resulting number of columns will define all the subsequent rows. In case of finding a single row not having
-        //this number of columns, the input file would be considered faulty and no calculations would be performed.
+        //this number of columns, the input file would be considered faulty and no calculations would be performed
         private AllInputs readHeading(string[] line, AllInputs colsSoFar)
         {
             for (int i = 0; i < line.Length; i++)
@@ -159,7 +159,7 @@ namespace trendingBot2
             return colsSoFar;
         }
 
-        //Method extracting the values for all the columns in any row after the first one (i.e., rows including input values).
+        //Method extracting the values for all the columns in any row after the first one (i.e., rows including input values)
         private AllInputs readLine(string[] line, AllInputs colsSoFar)
         {
             try
@@ -169,10 +169,10 @@ namespace trendingBot2
 
                     if (colsSoFar.inputs[i].type.mainType == MainTypes.Numerical)
                     {
-                        double curDec;
-                        if (double.TryParse(line[i], out curDec))
+                        double curVal;
+                        if (double.TryParse(line[i], out curVal))
                         {
-                            colsSoFar.inputs[i].vals.Add(curDec);
+                            colsSoFar.inputs[i].vals.Add(curVal);
                         }
                         else
                         {
