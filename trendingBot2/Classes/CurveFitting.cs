@@ -11,7 +11,7 @@ namespace trendingBot2
     /// </summary>
     public class CurveFitting
     {
-        //Method performing the 2nd degree polynomial regression (only one being accounted for at the moment)
+        //Method performing the 2nd degree polynomial regression (only one being considered at the moment)
         public PolCurve performPolRegress(CombValues xValues, CombValues yValues)
         {
             PolCurve curCurve = new PolCurve();
@@ -24,7 +24,7 @@ namespace trendingBot2
                 Coefficients curCoeffs = new Coefficients();
                 Coefficients.GaussJordanCoeff curGauss = curCoeffs.getGaussJordanCoeffs(xValues, yValues);
 
-                //Loops iterating through all the "Gauss coefficients" and performing the corresponding operations, required by the Gauss-Jordan elimination
+                //Loops iterating through all the "Gauss coefficients" and performing the operations required by the Gauss-Jordan elimination
                 for (int i = 0; i < 3; i++) 
                 {
                     for (int i2 = 0; i2 < 3; i2++) 
@@ -42,7 +42,7 @@ namespace trendingBot2
                     }
                 }
 
-                //A,B,C resulting coefficients of the fit, that is: result = A + B*x + C*x^2
+                //A,B,C resulting coefficients of the fit. Example: result = A + B*x + C*x^2
                 curCurve.coeffs.A = curGauss.a[0, 0] == 0.0 ? 0.0 : curGauss.b[0] / curGauss.a[0, 0];
                 curCurve.coeffs.B = curGauss.a[1, 1] == 0.0 ? 0.0 : curGauss.b[1] / curGauss.a[1, 1];
                 curCurve.coeffs.C = curGauss.a[2, 2] == 0.0 ? 0.0 : curGauss.b[2] / curGauss.a[2, 2];
@@ -50,7 +50,7 @@ namespace trendingBot2
             }
             catch
             {
-                curCurve = null; //In case too big numbers are accounted for
+                curCurve = null; //In case of dealing with too big numbers
             }
 
             return curCurve;
@@ -58,8 +58,8 @@ namespace trendingBot2
     }
 
     /// <summary>
-    /// Class including all the code required to calculate the "Gauss coefficients", that is: the values resulting from performing a least squares regression
-    /// over the inputs and ordering them in a matrix form to be solved by Gauss-Jordan elimination
+    /// Class including all the code required to calculate the "Gauss coefficients", that is: the values resulting from applying least squares regression
+    /// to the inputs; stored in arrays emulating the corresponding matrix which will be solved by Gauss-Jordan elimination
     /// </summary>
     public class Coefficients
     {
@@ -101,7 +101,7 @@ namespace trendingBot2
         }
 
         /// <summary>
-        /// Class storing all the variables required by the least squares calculations, which will be later stored in arrays emulating the matrix form expected by Gauss-Jordan
+        /// Class storing all the variables required by the least squares calculations. They will be later stored in arrays emulating the matrix form expected by Gauss-Jordan
         /// </summary>
         private class LeastSquaresCoeff
         {
