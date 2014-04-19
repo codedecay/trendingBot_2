@@ -76,10 +76,10 @@ namespace trendingBot2
         {
             if (fitIsConstant(curValidComb, curConfig))
             {
-                //y = A represents accurately the current fit; no further information need to be accounted for
+                //y = A represents accurately the current fit; no further information needs to be accounted for
                 if (curValidComb.averError >= curConfig.limitVals.maxErrorConstant)
                 {
-                    //Having a too big value for a constant fit might indicate an "understanding error". Example: 10001, 9999, 10000... modelled with  y = 10000
+                    //Having a too big error for a constant fit might indicate an "understanding error". Example: 10001, 9999, 10000... modelled with  y = 10000
                     curValidComb = null;
                 }
                 else
@@ -123,7 +123,7 @@ namespace trendingBot2
             return fitIsConstant;
         }
 
-        //Method determining whether all the variables forming the corresponding combinations are actually required.
+        //Method determining whether all the variables forming the corresponding combinations are actually required
         private ValidCombination removeRedundantVars(ValidCombination curValidComb, List<Input> inputs, CombValues yVals, Config curConfig)
         {
             if (curValidComb.dependentVars.items.Count > 1)
@@ -145,8 +145,11 @@ namespace trendingBot2
             List<Weight2> allWeights2 = new List<Weight2>();
             for (int i = 0; i < curValidComb.calcVals[0].weights2.Count; i++)
             {
+                //i2 avoids the warning "Using the iteration variable in a lambda expression is..."
+                //which, curiously, is only shown in VB.NET (even with Option Strict Off!), but not in C# (even though this "problem" is common to both)
+                int i2 = i;
                 Weight2 curWeight2 = new Weight2();
-                curWeight2.combWeight = curValidComb.calcVals.Average(x => x.weights2[i].combWeight);
+                curWeight2.combWeight = curValidComb.calcVals.Average(x => x.weights2[i2].combWeight);
                 curWeight2.combItems = new List<CombinationItem>(curValidComb.calcVals[0].weights2[i].combItems);
                 allWeights2.Add(curWeight2);
             }
@@ -155,8 +158,7 @@ namespace trendingBot2
             goAhead = goAhead ? goAhead : allWeights2.FirstOrDefault(x => x.combWeight <= 0.5 * curConfig.limitVals.maxErrorToIgnoreVar) != null;
             if (goAhead)
             {
-                //The importance of the contribution (to the final calculated value) of one of the variables from the given combination is much more relevant than the ones from
-                //all the other ones.
+                //One of the variables contributes in a much more relevant way (to the final calculated value) than all the other ones in the combination
                 List<int> itemsToIgnore = new List<int>();
                 for (int i = 0; i < allWeights2.Count; i++)
                 {
@@ -222,15 +224,18 @@ namespace trendingBot2
             return curValidComb;
         }
 
-        //Looking at the weights variable to determine whether there are single variables (e.g., var1 or var2) which should better be removed
+        //Looking at the weights variable to determine whether there are single variables (e.g., var1 + var2) which should better be removed
         private ValidCombination removeSingleRedundant(ValidCombination curValidComb, List<Input> inputs, CombValues yVals, Config curConfig)
         {
-            //Addition of the weights of all the variables in each row. This is a simplistic way to determine whether the importance of one of the variables
-            //forming the given combination is much more relevant than the one from all the other ones.
+            //Addition of the weights of all the variables in each row. This is a simplistic way to determine whether one of the variables
+            //forming the given combination is much more relevant than all the other ones
             List<double> allWeights = new List<double>();
             for (int i = 0; i < curValidComb.dependentVars.items.Count; i++)
             {
-                allWeights.Add(curValidComb.calcVals.Average(x => x.weights[i]));
+                //i2 avoids the warning "Using the iteration variable in a lambda expression is..."
+                //which, curiously, is only shown in VB.NET (even with Option Strict Off!), but not in C# (even though this "problem" is common to both)
+                int i2 = i;
+                allWeights.Add(curValidComb.calcVals.Average(x => x.weights[i2]));
             }
 
             double curMaxWeight = curConfig.limitVals.tooRelevantWeight;
@@ -244,9 +249,7 @@ namespace trendingBot2
 
             if (goAhead)
             {
-                //The importance of the contribution (to the final calculated value) of one of the variables from the given combination is much more relevant than the ones from
-                //all the other ones.
-
+                //One of the variables contributes in a much more relevant way (to the final calculated value) than all the other ones in the combination
                 List<int> itemsToIgnore = new List<int>();
                 for (int i = curValidComb.dependentVars.items.Count - 1; i >= 0; i--)
                 {
@@ -329,7 +332,7 @@ namespace trendingBot2
             {
                 curFactor.name = "In-sample accuracy";
                 curFactor.weight = 10.0;
-                if (curValidComb.averError <= curConfig.limitVals.valueIsZero) //Zero cannot be accounted because floating-point-related limitations might provoke inaccuracies
+                if (curValidComb.averError <= curConfig.limitVals.valueIsZero) //Zero cannot be considered because the (floating-point) double type might provoke errors
                 {
                     //Too perfect to continue
                     curFactor.rating = 10.0;
@@ -366,7 +369,7 @@ namespace trendingBot2
                     if (curValidComb.errors.Count >= 1.25 * curConfig.fitConfig.minNoCases) curFactor.rating = 10.0;
                     else if (curValidComb.errors.Count >= 1.1 * curConfig.fitConfig.minNoCases) curFactor.rating = 9.0;
                 }
-                curFactor.rating = Math.Round(0.5 * (double)curFactor.rating + 0.5 * curValidComb.independentVar.input.preAnalysis.rating, 0.0);
+                curFactor.rating = Math.Round(0.5 * (double)curFactor.rating + 0.5 * curValidComb.independentVar.input.preAnalysis.rating, 0);
             }
             else if (curCount == 3)
             {
