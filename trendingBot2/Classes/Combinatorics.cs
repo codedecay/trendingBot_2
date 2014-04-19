@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace trendingBot2
 {
@@ -253,7 +251,7 @@ namespace trendingBot2
         }
 
         //Method called from the main combinatorics loops for multivariate cases above (addMulti). Its whole purpose is reducing the size of the loops. 
-        //It updates certain variables (mainly the exponent/operation indices currently being considered)
+        //It updates certain variables; mainly the exponent/operation indices currently being considered (obj1 & obj3)
         private ExpRelUpdate updateObjs13(ExpRelUpdate curObj, bool restart)
         {
             if (curObj.curList[curObj.index] < curObj.max)
@@ -270,7 +268,7 @@ namespace trendingBot2
                 else
                 {
                     curObj.index = curObj.index - 1;
-                    curObj.curList[curObj.index] = 1; // 0 item was done in the first iteration
+                    curObj.curList[curObj.index] = 1; //index 0 was done in the first iteration
                     restart = true;
                 }
             }
@@ -287,7 +285,7 @@ namespace trendingBot2
         }
 
         //Method called from the main combinatorics loops for multivariate cases above (addMulti). Its whole purpose is reducing the size of the loops. 
-        //It updates certain variables (mainly the exponent/operation indices currently being considered)
+        //It updates certain variables; mainly the exponent/operation indices currently being considered (obj2)
         private ExpRelUpdate updateObj2(ExpRelUpdate obj2)
         {
             obj2.otherProp = false;
@@ -398,20 +396,23 @@ namespace trendingBot2
         {
             bool alreadyStored = false;
 
-            if (allValidCombinations.Count < 1)
+            if (allValidCombinations.Count > 0)
             {
-                //Constant
-                if (allValidCombinations.FirstOrDefault(x => x.coeffs.A == curValidCombination.coeffs.A && x.coeffs.B == 0 && x.coeffs.C == 0) != null)
+                if (curValidCombination.dependentVars.items.Count < 1)
                 {
-                    alreadyStored = true;
+                    //Constant fit
+                    if (allValidCombinations.FirstOrDefault(x => x.coeffs.A == curValidCombination.coeffs.A && x.coeffs.B == 0 && x.coeffs.C == 0) != null)
+                    {
+                        alreadyStored = true;
+                    }
                 }
-            }
-            else
-            {
-                foreach (var comb in allValidCombinations.Where(x => x.independentVar.index == curValidCombination.independentVar.index && x.dependentVars.items.Count == curValidCombination.dependentVars.items.Count))
+                else
                 {
-                    alreadyStored = dependentAreEquivalent(comb.dependentVars, curValidCombination.dependentVars);
-                    if (alreadyStored) break;
+                    foreach (var comb in allValidCombinations.Where(x => x.independentVar.index == curValidCombination.independentVar.index && x.dependentVars.items.Count == curValidCombination.dependentVars.items.Count))
+                    {
+                        alreadyStored = dependentAreEquivalent(comb.dependentVars, curValidCombination.dependentVars);
+                        if (alreadyStored) break;
+                    }
                 }
             }
 
