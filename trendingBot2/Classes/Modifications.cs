@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -13,7 +12,7 @@ namespace trendingBot2
     class Modifications
     {
         public AllInputs allInputs0; //List of all the inputs (columns) which will be transferred to mainForm after the updating process will be over
-        public static popUp curPopUp; //Static variable to store the popUp instance, allowing the user to change the non-numerical columns, which has to be accessed from mainForm
+        public static popUp curPopUp; //Static variable to store the popUp instance, allowing the user to change the non-numerical columns. It has to be accessed from the mainForm class
         volatile public bool completed; //Flag to let mainForm know about the end of the non-numerical columns updating process
         Form mainForm; //To store the current instance of mainForm
         
@@ -28,11 +27,12 @@ namespace trendingBot2
         //Method called from mainForm to start the process of updating the current non-numerical columns
         public void updateColumns(AllInputs allInputs, int curCol)
         {
+
             completed = false; 
             checkNextColumn(allInputs, -1);
         }
 
-        //Method called to start/continue the non-numerical column analysis (as many pop-ups as non-numerical columns are displayed to the user and the answers are stored)
+        //Method called to start/continue the non-numerical column update. This process consists in: displaying a set of popups (one per non-numerical column) and storing the corresponding answers
         private void checkNextColumn(AllInputs allInputs, int curCol)
         {
             bool found = false;
@@ -86,7 +86,7 @@ namespace trendingBot2
                     }
                     else if (newType.mainType == MainTypes.Categorical)
                     {
-                        //The current column has to be converted to categorical (i.e., made-up scale starting from 0 assigning unique IDs for all the values)
+                        //The current column has to be converted to categorical (i.e., made-up scale starting from 0 assigning unique IDs to every values)
                         allInputs.inputs[curCol] = updateCategorical(allInputs.inputs[curCol]);
                     }
 
@@ -130,30 +130,30 @@ namespace trendingBot2
             return curInput;
         }
 
-        //The conversion of the given non-numerical value to DateTime would be different depending upon the given secondary type (i.e., DateTimeTypes). This function performs this analysis
+        //The conversion of the given non-numerical value to DateTime would be different depending upon the given secondary type (i.e., DateTimeTypes). This function performs the corresponding analysis
         private double valueFromDateTimeType(DateTime curDateTime, DateTimeTypes curType)
         {
-            double outVal = 0;
+            double outVal = 0.0;
 
             if (curType == DateTimeTypes.Time)
             {
-                outVal = 10000 * curDateTime.Hour + 100 * curDateTime.Minute + curDateTime.Second;
+                outVal = (double)(10000 * curDateTime.Hour + 100 * curDateTime.Minute + curDateTime.Second);
             }
             else if (curType == DateTimeTypes.Year)
             {
-                outVal = curDateTime.Year;
+                outVal = (double)curDateTime.Year;
             }
             else if (curType == DateTimeTypes.Month)
             {
-                outVal = curDateTime.Month;
+                outVal = (double)curDateTime.Month;
             }
             else if (curType == DateTimeTypes.Weekday)
             {
-                outVal = Convert.ToDouble((int)curDateTime.DayOfWeek);
+                outVal = (double)((int)curDateTime.DayOfWeek);
             }
             else if (curType == DateTimeTypes.Day)
             {
-                outVal = curDateTime.Day;
+                outVal = (double)curDateTime.Day;
             }
 
             return outVal;
@@ -207,8 +207,7 @@ namespace trendingBot2
             }
             else
             {
-                allInputs.inputs[curCol].type.mainType = newType.mainType;
-                allInputs.inputs[curCol].type.secType = newType.secType;
+                allInputs.inputs[curCol].type = newType;
             }
 
             return allInputs;
@@ -232,7 +231,7 @@ namespace trendingBot2
         }
 
         //Most of the (data) assessment is performed at a later stage (i.e., while analysing the given combination/fit).
-        //This is a pre-analysis of the raw input information which will (slightly) be taken into account during the later assessment
+        //This is a pre-analysis of the raw input information which will have a (slight) influence in the later assessment
         private Input preAnalyseColumn(Input curInput)
         {
             curInput.preAnalysis.averValue = curInput.vals.Average();
