@@ -17,7 +17,7 @@ namespace trendingBot2
         AllInputs allInputs; //All the input columns
         int curCol; //Column about which the user will be prompted
 
-        //The class constructor takes as arguments the two relevant variables from the mainForm: list of all the columns and index of the current columns
+        //The class constructor takes as arguments the two only relevant variables for this popup: list of all the columns and index of the current columns
         public popUp(AllInputs allInputs_temp, int curCol_temp)
         {
             InitializeComponent();
@@ -26,7 +26,7 @@ namespace trendingBot2
             curCol = curCol_temp;
         }
 
-        //Method call at the form load including basic starting configuration
+        //Method called at the form load including basic starting configuration
         private void popUp_Load(object sender, EventArgs e)
         {
             List<DateTimeTypes> curList = new List<DateTimeTypes>();
@@ -44,7 +44,7 @@ namespace trendingBot2
             cmbBxPopUp.SelectedIndex = 0;
         }
 
-        //Method triggered when the popUp form is closed (because of clicking on the upper closing button or on btnPopUp), in charge of calling the corresponding method to update the information in mainForm
+        //Method triggered when the popUp form is closed (because of clicking on the upper closing button or on btnPopUp). It calls the method in charge of updating the information for calculations/display
         private void popUp_FormClosing(object sender, FormClosingEventArgs e)
         {
             InputType newType = new InputType();
@@ -61,10 +61,11 @@ namespace trendingBot2
             }
 
             Modifications curModif = (Modifications)this.Tag; //Current instance of the Modifications class, stored in the Tag of the form when it was created
-            curModif.updateNonNumerical(allInputs, curCol, newType); //Method updating the information accounted (i.e., list of "Input") on account of the inputs from the user
+            curModif.updateNonNumerical(allInputs, curCol, newType); //Method updating the corresponding variables (i.e., list of "Input") on account of the inputs from the user
         }
 
-        //Clicking the button validates the current selection of the combobox(es) and, consequently, closes the popup to pass this information back to the mainForm
+        //Method associated with the Click event of the btnPopUp button.
+        //Clicking this button validates the current selection of the combobox(es) and, consequently, closes the popup form
         private void btnPopUp_Click(object sender, EventArgs e)
         {
             this.Close();
