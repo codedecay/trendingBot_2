@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -92,33 +91,22 @@ namespace trendingBot2
         {
             for (int i = pnlPredInputs.Controls.Count - 1; i >= 0; i--)
             {
-                Control curControl = pnlPredInputs.Controls[i];
-                if (curControl.GetType() == typeof(NumericUpDown))
+                if (pnlPredInputs.Controls[i].GetType() == typeof(NumericUpDown) && pnlPredInputs.Controls[i].Name != "numPredInput0")
                 {
-                    if (curControl.Name != "numPredInput0")
-                    {
-                        pnlPredInputs.Controls.RemoveAt(i);
-                    }
-                    else
-                    {
-                        curControl.Visible = false;
-                    }
+                    pnlPredInputs.Controls.RemoveAt(i);
                 }
-                else if (curControl.GetType() == typeof(Label))
+                else if (pnlPredInputs.Controls[i].GetType() == typeof(Label) && pnlPredInputs.Controls[i].Name != "lblPredInp0")
                 {
-                    if (curControl.Name != "lblPredInp0")
-                    {
-                        pnlPredInputs.Controls.RemoveAt(i);
-                    }
-                    else
-                    {
-                        curControl.Visible = false;
-                    }
+                    pnlPredInputs.Controls.RemoveAt(i);
+                }
+                else
+                {
+                    pnlPredInputs.Controls[i].Visible = false;
                 }
             }
         }
 
-        //Method called every time a different solution is selected in the corresponding list to update the equation being displayed in the corresponding RTB (rtbCombinations)
+        //Method called every time the user selects a solution in the ListBox to update the equation displayed in the corresponding RTB (rtbCombinations)
         public void writeEquationInRTB(ValidCombination curValidComb)
         {
             rtbCombinations.Text = "";
@@ -126,17 +114,17 @@ namespace trendingBot2
             rtbCombinations.AppendText(" = ");
 
             bool additionPending = false;
-            if (curValidComb.coeffs.A != 0 || (curValidComb.coeffs.B == 0 && curValidComb.coeffs.C == 0))
+            if (curValidComb.coeffs.A != 0.0 || (curValidComb.coeffs.B == 0.0 && curValidComb.coeffs.C == 0.0))
             {
                 additionPending = writeCoeffInRTB(curValidComb, curValidComb.coeffs.A, additionPending);
             }
-            if (curValidComb.coeffs.B != 0)
+            if (curValidComb.coeffs.B != 0.0)
             {
                 additionPending = writeCoeffInRTB(curValidComb, curValidComb.coeffs.B, additionPending);
                 rtbOperation(Operation.Multiplication);
                 rtbText("VAR");
             }
-            if (curValidComb.coeffs.C != 0)
+            if (curValidComb.coeffs.C != 0.0)
             {
                 additionPending = writeCoeffInRTB(curValidComb, curValidComb.coeffs.C, additionPending);
                 rtbOperation(Operation.Multiplication);
@@ -144,96 +132,7 @@ namespace trendingBot2
             }
         }
 
-        //Method adding simple text to rtbCombinations: a variable name, operation symbol or even a number
-        private void rtbText(string varName)
-        {
-            rtbCombinations.AppendText(varName);
-            rtbCombinations.SelectionStart = rtbCombinations.Text.Length - varName.Length;
-            rtbCombinations.SelectionLength = varName.Length;
-            rtbCombinations.SelectionCharOffset = 0;
-            rtbCombinations.SelectionFont = rtbNormal;
-        }
-
-        //Method adding super-indices to rtbCombinations (i.e., an exponent).
-        //It deals also with logarithms (stored as exponents of the given variable)
-        private void rtbSuperIndices(double exponent, bool doubles, string varName)
-        {
-            string exponentString = "";
-            double logVal = Common.isLogarithm(exponent); //Logarithms are stored also as exponents
-            if (logVal != 0.0)
-            {
-                string logValString = "";
-                if (logVal == 10)
-                {
-                    logValString = "10";
-                }
-
-                if (logValString != "")
-                {
-                    rtbText("Log");
-                    rtbText(logValString);
-                    rtbCombinations.SelectionStart = rtbCombinations.Text.Length - logValString.Length;
-                    rtbCombinations.SelectionLength = logValString.Length;
-                    rtbCombinations.SelectionCharOffset = -3;
-                    rtbCombinations.SelectionFont = rtbSmall;
-                    rtbText(varName);
-                }
-            }
-            else
-            {
-                rtbText(varName);
-                if (exponent != 1)
-                {
-                    if (doubles) exponentString = exponent.ToString("0.0");
-                    else exponentString = exponent.ToString("0");
-                }
-
-                if (exponentString != "")
-                {
-                    if (exponent == 0.0) exponentString = "";
-                    rtbCombinations.AppendText(exponentString);
-                    rtbCombinations.SelectionStart = rtbCombinations.Text.Length - exponentString.Length;
-                    rtbCombinations.SelectionLength = exponentString.Length;
-                    rtbCombinations.SelectionCharOffset = 7;
-                    rtbCombinations.SelectionFont = rtbSmall;
-                }
-            }
-        }
-
-        //Method adding the symbol associated with the given operation to rtbCombinations
-        private void rtbOperation(Operation curOperation)
-        {
-            string curSign = " " + Common.getSignFromoperation(curOperation, false) + " ";
-            rtbText(curSign);
-        }
-
-        //Method adding the symbol associated with the given operation to rtbCombinations
-        private void rtbNumbers(double curVal)
-        {
-            string valString = numberToDisplay(curVal);
-            rtbText(valString);
-        }
-
-        //Function converting the input number into string by applying some rules making sure that it will look properly in the interface
-        public string numberToDisplay(double curVal)
-        {
-            string outString = "";
-
-            if (Math.Abs(curVal) >= 10000 || (Math.Abs(curVal) <= 0.0001 && curVal != 0))
-            {
-                outString = curVal.ToString("E2", Common.curCulture); //Scientific notation for numbers consisting in many digits
-            }
-            else
-            {
-                string curPrecision = "N4";
-                if (curVal == 0 || Math.Abs(curVal) > 1000) curPrecision = "N2";
-                outString = curVal.ToString(curPrecision, Common.curCulture);
-            }
-
-            return outString;
-        }
-
-        //Function called from the method above to write the corresponding equation coefficient (A, B, C) in rtbCombinations 
+        //Function called from the method writeEquationInRTB to write the corresponding equation coefficient (A, B, C) in rtbCombinations 
         private bool writeCoeffInRTB(ValidCombination curValidComb, double curCoeff, bool additionPending)
         {
             double curVal = curCoeff;
@@ -293,6 +192,91 @@ namespace trendingBot2
             }
 
             return curVarVals;
+        }
+
+        //Method adding super-indices (i.e., exponents) to rtbCombinations.
+        //It deals also with logarithms (stored as exponents of the given variable)
+        private void rtbSuperIndices(double exponent, bool doubles, string varName)
+        {
+            string exponentString = "";
+            double logVal = Common.isLogarithm(exponent); //Logarithms are stored also as exponents
+            if (logVal != 0.0)
+            {
+                string logValString = logVal == 10 ? "10": "";
+
+                if (logValString != "")
+                {
+                    rtbText("Log");
+                    rtbText(logValString);
+                    rtbCombinations.SelectionStart = rtbCombinations.Text.Length - logValString.Length;
+                    rtbCombinations.SelectionLength = logValString.Length;
+                    rtbCombinations.SelectionCharOffset = -3;
+                    rtbCombinations.SelectionFont = rtbSmall;
+                    rtbText(varName);
+                }
+            }
+            else
+            {
+                rtbText(varName);
+                if (exponent != 1)
+                {
+                    if (doubles) exponentString = exponent.ToString("0.0");
+                    else exponentString = exponent.ToString("0");
+                }
+
+                if (exponentString != "")
+                {
+                    if (exponent == 0.0) exponentString = "";
+                    rtbCombinations.AppendText(exponentString);
+                    rtbCombinations.SelectionStart = rtbCombinations.Text.Length - exponentString.Length;
+                    rtbCombinations.SelectionLength = exponentString.Length;
+                    rtbCombinations.SelectionCharOffset = 7;
+                    rtbCombinations.SelectionFont = rtbSmall;
+                }
+            }
+        }
+
+        //Method adding the symbol associated with the given operation to rtbCombinations
+        private void rtbOperation(Operation curOperation)
+        {
+            string curSign = " " + Common.getSignFromoperation(curOperation, false) + " ";
+            rtbText(curSign);
+        }
+
+        //Method adding a number (not exponent) to rtbCombinations
+        private void rtbNumbers(double curVal)
+        {
+            string valString = numberToDisplay(curVal);
+            rtbText(valString);
+        }
+
+        //Method adding simple text to rtbCombinations: a variable name, operation symbol or even a number
+        private void rtbText(string varName)
+        {
+            rtbCombinations.AppendText(varName);
+            rtbCombinations.SelectionStart = rtbCombinations.Text.Length - varName.Length;
+            rtbCombinations.SelectionLength = varName.Length;
+            rtbCombinations.SelectionCharOffset = 0;
+            rtbCombinations.SelectionFont = rtbNormal;
+        }
+
+        //Function converting the input number into string by applying some rules making sure that it will look properly in the interface
+        public string numberToDisplay(double curVal)
+        {
+            string outString = "";
+
+            if (Math.Abs(curVal) >= 10000.0 || (Math.Abs(curVal) <= 0.0001 && curVal != 0.0))
+            {
+                outString = curVal.ToString("E2", Common.curCulture); //Scientific notation for numbers consisting in many digits
+            }
+            else
+            {
+                string curPrecision = "N4";
+                if (curVal == 0 || Math.Abs(curVal) > 1000) curPrecision = "N2";
+                outString = curVal.ToString(curPrecision, Common.curCulture);
+            }
+
+            return outString;
         }
     }
 }
