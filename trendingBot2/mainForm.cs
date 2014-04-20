@@ -61,20 +61,14 @@ namespace trendingBot2
             startUpdate(); //Reading the input file and populating all the corresponding controls accordingly
         }
 
-        //Method triggered every time the form is active.
-        //It is only used when the popUp (to allow the user to modify the non-numerical columns) is opened, to force it to always be on top of the main form.
-        //Note that this approach (i.e., forcing the popUp to not be selected) is required because the popUp is instantiated as a non-modal form (in order to minimise the limitations associated with the modal alternative)
+        //Method triggered every time the form is active. It is used to affect the popUps:
+        //- To force the one to modify the non-numerical columns to always be on top of the main form (required because of not being a modal form).
+        //- To close the accuracy-further-info-displaying form. 
         private void mainForm_Activated(object sender, EventArgs e)
         {
-            if (Modifications.curPopUp != null)
-            {
-                Modifications.curPopUp.BringToFront();
-            }
+            if (Modifications.curPopUp != null) Modifications.curPopUp.BringToFront();
 
-            if (cmbBxAccuracy.Tag != null)
-            {
-                closeFitConfigPopUp();
-            }
+            if (cmbBxAccuracy.Tag != null) closeFitConfigPopUp();
         }
 
         //Method triggered every time the size of the form is changed to relocate it accordingly to the current size (such that it is always shown in a centered location)
@@ -90,7 +84,7 @@ namespace trendingBot2
             }
         }
 
-        //Method called to vary the height of the main form, for the transition "calculating" (small) -> "showing results" (big)
+        //Method called to modify the height of the main form. This is used for the transition "calculating" (small) -> "showing results" (big)
         private void resizeMainForm(bool makeBig)
         {
             this.Height = makeBig ? bigHeight : smallHeight;
@@ -119,7 +113,7 @@ namespace trendingBot2
                 Modifications curModif = (Modifications)e.Argument;
                 while (!curModif.completed)
                 {
-                    //Waiting for the user to specify the type for the non-numerical columns
+                    //Waiting for the user inputs regarding the non-numerical columns
                 }
                 e.Result = curModif.allInputs0;
             }
@@ -163,8 +157,10 @@ namespace trendingBot2
                 {
                     //The calculations have been completed
                     Results curResults = (Results)e.Result;
+
                     lblReliability.ForeColor = getAccuracyColor(curResults.config.fitConfig.expectedAccuracy);
                     lblReliability.Refresh();
+
                     populateCombinatoricsLstBx(curResults.combinations, "Total time: " + curResults.totTime); //Populating the main ListBox with all the valid solutions (if any)
                     enableControls(true, true); //Enable/disable some controls
                 }
@@ -182,7 +178,7 @@ namespace trendingBot2
 
 #region Associated methods
 
-        //Method called after the input-file reading has been completed to update the information in the required variables/GUI-controls accordingly 
+        //Method called once the input-file reading is over to update the required variables/GUI-controls accordingly 
         private void bgwCompleteUpdate(AllInputs curInputs)
         {
             if (curInputs.inputs.Count > 0)
@@ -204,8 +200,8 @@ namespace trendingBot2
                 {
                     //There is no non-numerical columns or the ones present have already been corrected
                     curInputs.updateCompleted = true;
-                    curInputs = curModif.finalColumnActions(curInputs); //Analysis for all the valid columns
-                    updateControlsWithInputs(curInputs); //Population of the corresponding controls and eventual display of error messages
+                    curInputs = curModif.finalColumnActions(curInputs); //To analyse all the valid columns
+                    updateControlsWithInputs(curInputs); //To populate the corresponding controls and to eventually display some warnings
                 }
             }
             else
@@ -224,7 +220,7 @@ namespace trendingBot2
 
             if (curInputs.maxRowConsidered > 0) MessageBox.Show("Only the first " + curInputs.maxRowConsidered.ToString() + " rows will be considered during the calculations.");
 
-            inputsToUpdate(curInputs); //Valid non-numerical columns
+            inputsToUpdate(curInputs); //Managing valid non-numerical columns
             if (curInputs.inputs.Count <= 1)
             {
                 MessageBox.Show("No valid inputs were found.");
@@ -265,13 +261,13 @@ namespace trendingBot2
         }
 
         //Method populating the main DGV with all the (eventually-corrected) inputs
-        private void populateInputDGV(AllInputs inputCols)
+        private void populateInputDGV(AllInputs allInputs)
         {
             dgvInputs.Columns.Clear();
+            dgvInputs.Tag = allInputs.inputs;
 
-            dgvInputs.Tag = inputCols.inputs;
-            //Adding as many columns as input variables to the DGV
-            foreach (Input col in inputCols.inputs)
+            //Adding to the DGV as many columns as input variables
+            foreach (Input col in allInputs.inputs)
             {
                 DataGridViewColumn curDGVCol = new DataGridViewTextBoxColumn();
                 curDGVCol.HeaderText = col.displayedIndex.ToString() + ". " + col.name;
@@ -282,12 +278,12 @@ namespace trendingBot2
             }
 
             //Adding all the values
-            for (int row = 0; row < inputCols.inputs[0].vals.Count; row++)
+            for (int row = 0; row < allInputs.inputs[0].vals.Count; row++)
             {
                 dgvInputs.Rows.Add();
-                for (int col = 0; col < inputCols.inputs.Count; col++)
+                for (int col = 0; col < allInputs.inputs.Count; col++)
                 {
-                    dgvInputs[col, row].Value = inputCols.inputs[col].vals[row];
+                    dgvInputs[col, row].Value = allInputs.inputs[col].vals[row];
                 }
             }
         }
@@ -304,7 +300,7 @@ namespace trendingBot2
             cmbBxIndependent.SelectedIndex = 0;
         }
 
-        //Method called to populate the predictions ListBox with the list of valid solutions (i.e., "Solution No. " + counter)
+        //Method called to populate the predictions ListBox with all the valid solutions (i.e., "Solution No. " + counter)
         private void populateCombinatoricsLstBx(List<ValidCombination> combinations, string totTime)
         {
             if (combinations.Count > 0)
@@ -356,7 +352,7 @@ namespace trendingBot2
         {
             Stopwatch curSw = new Stopwatch();
             curSw.Start();
-            btnRun.Tag = curSw; //The Stopwatch variable, which will stored the calculation time 
+            btnRun.Tag = curSw; //The Stopwatch variable storing the calculation time
 
             resizeMainForm(false);
 
@@ -389,7 +385,7 @@ namespace trendingBot2
         {
             resizeMainForm(false);
             enableControls(false, false);
-            lblStatus.Text = "Analysing the \"inputs.csv\" file";
+            lblStatus.Text = "Analysing the \"inputs.csv\" file.";
             lblStatus.Refresh();
             bgwMain.RunWorkerAsync(null);
         }
@@ -443,13 +439,13 @@ namespace trendingBot2
             setDisplayInfo(cmbBxAccuracy.Tag);
         }
 
-        //Method triggered by the MouseLeave event of cmbBxAccuracy. It closes the popup created by the method above
+        //Method triggered by the MouseLeave event of cmbBxAccuracy. It closes the popup created by the method above (cmbBxAccuracy_MouseEnter)
         private void cmbBxAccuracy_MouseLeave(object sender, EventArgs e)
         {
             closeFitConfigPopUp();
         }
 
-        //Called by the method above to close the opened popup displaying information about the selected accuracy level
+        //Called by the method above (cmbBxAccuracy_MouseLeave) to close the opened popup displaying information about the selected accuracy level
         private void closeFitConfigPopUp()
         {
             if (lblAccuracy.Tag != null && lblAccuracy.Tag.GetType() == typeof(Form))
@@ -467,7 +463,6 @@ namespace trendingBot2
             curLstVw.Width = 250;
             curLstVw.Height = curHeight;
             curLstVw.View = View.Details;
-
             curLstVw.Columns.Add("Factor to define a valid trend").Width = 150;
             curLstVw.Columns.Add("Value").TextAlign = HorizontalAlignment.Center;
 
@@ -475,18 +470,20 @@ namespace trendingBot2
             curItem.Text = "Target error/case (%)";
             curItem.SubItems.Add((curFitConfig.averLimit * 100).ToString("N0", Common.curCulture));
             curLstVw.Items.Add(curItem);
+            
             curItem = new ListViewItem();
             curItem.Text = "Min. cases below target (%)";
             curItem.SubItems.Add((curFitConfig.minPercBelowLimit * 100).ToString("N0", Common.curCulture));
             curLstVw.Items.Add(curItem);
+            
             curItem = new ListViewItem();
-            curItem.Text = "Max. aver. global error (%)";
+            curItem.Text = "Max. aver. globsetDisplayInfoal error (%)";
             curItem.SubItems.Add((curFitConfig.globalAver * 100).ToString("N0", Common.curCulture));
             curLstVw.Items.Add(curItem);
+            
             curItem = new ListViewItem();
             curItem.Text = "Min. number of cases";
             curItem.SubItems.Add(curFitConfig.minNoCases.ToString("N0", Common.curCulture));
-
             curLstVw.Items.Add(curItem);
 
             return curLstVw;
@@ -502,7 +499,7 @@ namespace trendingBot2
             setDisplayInfo(this.Tag);
         }
 
-        //MouseLeave event of lblReliability closing the popup opened by the method above
+        //Method triggered by the MouseLeave event of lblReliability. It closes the popup opened by the method above (MouseEnter event)
         private void lblReliability_MouseLeave(object sender, EventArgs e)
         {
             if (lblReliability.Tag != null && lblReliability.Tag.GetType() == typeof(Form))
@@ -533,10 +530,8 @@ namespace trendingBot2
                 curLstVw.Items.Add(curItem);
             }
 
-            if (curValidComb.assessment.factors.Count == 1)
-            {
-                curLstVw.Items.Add("PERFECT MATCH");
-            }
+            if (curValidComb.assessment.factors.Count == 1) curLstVw.Items.Add("PERFECT MATCH");
+
 
             return curLstVw;
         }
@@ -551,7 +546,7 @@ namespace trendingBot2
             performCalcs((NumericUpDown)sender);
         }
 
-        //Method called every time the value of any NumericUpDown in pnlPredInputs changes, to perform the corresponding prediction (i.e., apply the given formula to the input values)
+        //Method called every time the value of any NumericUpDown in pnlPredInputs changes. It performs the corresponding calculation/prediction (i.e., apply the given formula to the input values)
         private void performCalcs(NumericUpDown curNum)
         {
             if (((List<Input>)dgvInputs.Tag).Count > 0 && ((ValidCombination)this.Tag).errors.Count > 0)
@@ -584,6 +579,7 @@ namespace trendingBot2
                     lblPredValOutput.Text = curGUI.numberToDisplay(Common.valueFromPol(curValidComb.coeffs, curX));
                     lblPredValOutput.Refresh();
                     lblReliability.Text = "Reliability (0-10): " + curValidComb.assessment.globalRating.ToString("N2", Common.curCulture);
+                    lblReliability.Refresh();
                     lblAverError.Text = "Average error: " + curGUI.numberToDisplay(curValidComb.averError * 100) + "%";
                     lblAverError.Refresh();
                 }
@@ -606,7 +602,7 @@ namespace trendingBot2
 
         //Method triggered by the SelectedIndexChanged event of cmbBxNonNumerical.
         //This comboBox is shown when (valid) non-numerical columns are present (i.e., categorical or date-time) to show the equivalences to the user.
-        //More specifically, this method updates the corresponding ListView with the (conversion) values associated with the selected item (i.e., non-numerical column)
+        //More specifically, this method updates the corresponding ListView showing the conversions associated with the selected non-numerical column
         private void cmbBxNonNumerical_SelectedIndexChanged(object sender, EventArgs e)
         {
             lstVwNonNumerical.Items.Clear();
@@ -629,7 +625,7 @@ namespace trendingBot2
             }
         }
 
-        //Method called by the one above to update the associated Label (lblNonNumerical2) with the corresponding message, explaining the performed conversion
+        //Method called by the one above to update the associated Label (lblNonNumerical2) with a message explaining the performed conversion
         private void operationFromMainSecType(Input curInput)
         {
             if (curInput.type.mainType == MainTypes.Categorical)
@@ -662,12 +658,12 @@ namespace trendingBot2
                 this.Tag = curValidComb;
                 Combination curComb = curValidComb.dependentVars;
                 curGUI.writeEquationInRTB(curValidComb); //Writing the main equations to the RTB with the adequate format
-
                 curGUI.deleteInputNumUpDown(pnlPredInputs); //Deleting NumericUpDowns & Labels from previous seletions
+
                 List<VarValue> curVarVals = new List<VarValue>();
                 lblPredValOutput.Tag = new List<VarValue>();
 
-                bool isConstant = curValidComb.coeffs.B == 0 && curValidComb.coeffs.C == 0;
+                bool isConstant = curValidComb.coeffs.B == 0.0 && curValidComb.coeffs.C == 0.0;
                 if (!isConstant)
                 {
                     //The solution is not a constant and thus all the variables forming the dependent combinations have to be accounted for
@@ -677,7 +673,7 @@ namespace trendingBot2
                 lblPredValOutput.Tag = curVarVals;
                 numPredInput0.Tag = curComb.items.Count > 0 ? curComb.items[0].variable : null;
 
-                //After updating all the controls, the calculations are performed
+                //Method carrying out the calculations and displaying the results in the corresponding controls
                 performCalcs(numPredInput0); 
             }
         }
@@ -697,7 +693,7 @@ namespace trendingBot2
 #region chckBxExtrapol
 
         //Method associated with the CheckedChanged event of chckBxExtrapol.
-        //It updates the min./max. values of all the NumericUpDowns accordingly, that is: min./max. of the corresponding input variable (unchecked) or any value (checked)
+        //It updates the min./max. values of all the NumericUpDowns accordingly, that is: min./max. of the corresponding input variable (unchecked) or absolute min./max. of decimal type (checked)
         private void chckBxExtrapol_CheckedChanged(object sender, EventArgs e)
         {
             foreach (Control ctrl in pnlPredInputs.Controls)
@@ -782,7 +778,7 @@ namespace trendingBot2
             curLabel.Refresh();
         }
 
-        //Method performing the whole "additional info displaying" process: setting up both, the popup and the ListView 
+        //Method performing the whole "additional info displaying" process, by setting up both the popup (Form) and the ListView 
         private void setDisplayInfo(object curObj)
         {
             Form curPopUp = null;
@@ -792,7 +788,7 @@ namespace trendingBot2
                 //Reliability information (lblReliability)
                 ValidCombination curValidComb = (ValidCombination)curObj;
 
-                //The assessment factors can be changed relatively easy and that's why this height comes from the formula below
+                //The assessment factors can be changed relatively easy. For this reason, the popup height is calculated dynamically (formula below) in this case
                 curHeight = 75;
                 if (curValidComb.assessment.factors.Count > 2) curHeight = curHeight + 14 * (curValidComb.assessment.factors.Count - 2);
 
@@ -803,7 +799,7 @@ namespace trendingBot2
                 }
                 else
                 {
-                    //Popup is being currently displayed
+                    //The popup is currently being displayed
                     curPopUp = (Form)lblReliability.Tag;
                     curPopUp.Controls.Clear();
                 }
@@ -826,7 +822,7 @@ namespace trendingBot2
                 }
                 else
                 {
-                    //Popup is being currently displayed
+                    //The popup is currently being displayed
                     curPopUp = (Form)lblAccuracy.Tag;
                     curPopUp.Controls.Clear();
                 }
