@@ -9,20 +9,20 @@ namespace trendingBot2
 {
     /// <summary>
     /// Class storing all the method to trigger the main calculations (i.e., regression and subsequent analysis).
-    /// As a consequence of the huge amount of information which has to be managed, even under the current simplistic
+    /// As a consequence of the huge amount of information to be managed, even under the current simplistic
     /// conditions (the number of combinations might be relevantly extended), this new algorithm (unlikely the old one)
-    /// has been built such that the intermediate storage of information is as low as possible. Thus, the whole calculation
-    /// and subsequent analysis process is performed every time for each combination (in the Combinatorics class)
+    /// has been built such that the intermediate storage of information is as low as possible. Thus, the whole calculations
+    /// and the subsequent analysis are performed for each single combination (in the Combinatorics class)
     /// </summary>
     public class MainCalcs
     {
-        public static BackgroundWorker bgwMain; //Static instance of the BackgroundWorker performing all the calculations, which is called from different parts of the code
+        public static BackgroundWorker bgwMain; //Variable storing a static instance of the BackgroundWorker performing all the calculations. It is called from different parts of the code
         public MainCalcs(BackgroundWorker temp)
         {
             bgwMain = temp;
         }
 
-        //Method starting all the calculations which, as explained above, consists basically in a call to the corresponding method in the Combinatorics class
+        //Method starting all the calculations (i.e., calling the corresponding method in the Combinatorics class)
         public Results startCalcs(List<Input> inputCols, int indepIndex, FitConfig curFitConfig)
         {
             Combinatorics curCombinatorics = new Combinatorics();
@@ -34,8 +34,8 @@ namespace trendingBot2
             curResults.config.maxNoCombs = 20;
             curResults.config.fitConfig = curFitConfig;
 
-            //Due to the huge amount of potential cases, the a-apriori better structured combinations -> calculations (regressions) -> analysis is not present.
-            //Both calculations and analysis are perform for each single combination, such that only the "good-enough" ones are stored
+            //Due to the huge amount of (potential) information to be managed, the a-apriori logical structure "combinations -> calculations (regressions) -> analysis" is not present.
+            //Both calculations and analysis are performed for each single combination and only the "good-enough" ones are kept in memory
            
             curResults = curCombinatorics.startCombinatorics(curResults, indepIndex);
 
@@ -45,9 +45,9 @@ namespace trendingBot2
         }
 
         //Method creating the list of exponents which will be considered during all the calculations.
-        //Although this should never be a user input (against trendingBot ideas: taking care of everything internally),
-        //the exact definition of this list (and, in any case, the number of its elements) should be one of the first things
-        //to be extended while trying to improve this code
+        //Note that this should never be a user input (against trendingBot ideas: taking care of everything internally);
+        //but the exact definition of this list (and, in any case, the number of its elements) should be one of the first things
+        //to be changed while trying to improve this code
         private List<double> createListExponents()
         {
             List<double> outList = new List<double>();
@@ -58,7 +58,7 @@ namespace trendingBot2
             outList.Add(0.5);
             outList.Add(1.0);
             outList.Add(2.0);
-            outList.Add(-9999.10); //Log10 -> a mere example to show how easily a so different operation might be brought into the current framework
+            outList.Add(-9999.10); //Log10 -> a mere example to show how easily a different operation might be brought into the current calculating structure
 
             return outList;
         }
@@ -111,14 +111,14 @@ namespace trendingBot2
     {
         public double valueIsZero;
         public double tooRelevantWeight, tooRelevantWeight2; //Variables setting the threshold from which the given weight (of the variable(s) out of the other ones in the combination) can be considered too important
-        public double maxErrorConstant; //One of the weaknesses of the current version is not detecting small variations (and thus tending towards outputing constant fits); this limit tries to correct this problem.
+        public double maxErrorConstant; //One of the weaknesses of the current version is not detecting small variations (and thus tending towards outputing constant fits); this limit tries to correct this problem
         public double maxErrorToIgnoreVar; //While ignoring redundant variables, this is the error level below which both situations (before and after the removal) can be considered identical
         public SimilarityRatios similarity; //Ratios determining the similarity between two values
         public LimitValues()
         {
             valueIsZero = 0.00000001;
             tooRelevantWeight = 0.99;
-            tooRelevantWeight2 = 0.90;
+            tooRelevantWeight2 = 0.9;
             maxErrorConstant = 0.000001;
             maxErrorToIgnoreVar = 0.001;
             similarity = new SimilarityRatios();
