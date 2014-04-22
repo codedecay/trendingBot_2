@@ -549,7 +549,7 @@ namespace trendingBot2
         //Method called every time the value of any NumericUpDown in pnlPredInputs changes. It performs the corresponding calculation/prediction (i.e., apply the given formula to the input values)
         private void performCalcs(NumericUpDown curNum)
         {
-            if (((List<Input>)dgvInputs.Tag).Count > 0 && ((ValidCombination)this.Tag).errors.Count > 0)
+            if ((bool)pnlPredInputs.Tag && ((List<Input>)dgvInputs.Tag).Count > 0 && ((ValidCombination)this.Tag).errors.Count > 0)
             {
                 chckBxExtrapol.Enabled = true;
                 ValidCombination curValidComb = (ValidCombination)this.Tag;
@@ -654,6 +654,7 @@ namespace trendingBot2
         {
             if (lstBxCombinations.Tag != null)
             {
+                pnlPredInputs.Tag = false; //Flag avoiding the calculations (, triggered every time there is a change in an input control) to be performed until the update process is over
                 ValidCombination curValidComb = ((List<ValidCombination>)lstBxCombinations.Tag)[lstBxCombinations.SelectedIndex];
                 this.Tag = curValidComb;
                 Combination curComb = curValidComb.dependentVars;
@@ -674,6 +675,7 @@ namespace trendingBot2
                 numPredInput0.Tag = curComb.items.Count > 0 ? curComb.items[0].variable : null;
 
                 //Method carrying out the calculations and displaying the results in the corresponding controls
+                pnlPredInputs.Tag = true;
                 performCalcs(numPredInput0); 
             }
         }
