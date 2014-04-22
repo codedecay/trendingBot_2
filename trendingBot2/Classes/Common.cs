@@ -280,7 +280,7 @@ namespace trendingBot2
             double outVal = 0.0;
             if (curExp.ToString().Length > 5)
             {
-                string inpString = curExp.ToString("N", curCulture);
+                string inpString = curExp.ToString("N2", curCulture);
                 string[] temp = inpString.Split(Convert.ToChar(curCulture.NumberFormat.NumberDecimalSeparator));
 
                 if (temp.Length == 2 && temp[0] == "-9999")
