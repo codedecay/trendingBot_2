@@ -369,7 +369,7 @@ namespace trendingBot2
                     if (curValidComb.errors.Count >= 1.25 * curConfig.fitConfig.minNoCases) curFactor.rating = 10.0;
                     else if (curValidComb.errors.Count >= 1.1 * curConfig.fitConfig.minNoCases) curFactor.rating = 9.0;
                 }
-                curFactor.rating = Math.Round(0.5 * (double)curFactor.rating + 0.5 * curValidComb.independentVar.input.preAnalysis.rating, 0);
+                curFactor.rating = Math.Round(0.5 * (double)curFactor.rating + 0.5 * averRatingVars, 0);
             }
             else if (curCount == 3)
             {
