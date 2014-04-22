@@ -11,6 +11,10 @@ using System.Diagnostics;
 
 namespace trendingBot2
 {
+    /// <summary>
+    /// Class for the popUp form, which is used to allow the user to update the non-numerical columns
+    /// </summary>
+    
     public partial class mainForm : Form
     {
         //Most of the global variables used by this class are stored in the Tag properties of various controls
