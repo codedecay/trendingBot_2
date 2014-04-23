@@ -2,8 +2,7 @@ trendingBot 2.0
 ===============
 
 
-VB.NET code -> https://github.com/varocarbas/trendingBot_2_VB
-
+VB.NET code -> https://github.com/varocarbas/trendingBot_2_VB<br>
 Ready to use executable -> http://www.customsolvers.com/downloads/ccount/click.php?id=9
 
 trendingBot
@@ -17,8 +16,7 @@ Since the first version, the mathematical implementation has consisted in second
 
 `prediction = A + B*VAR + C*VAR^2`
 
-Where:
-
+Where:<br>
 `VAR` -> fictitious variable created by a combination of the input variables raised to different exponents.<br>
 `A`, `B` and `C` -> second degree polynomial coefficients calculated via regression on the training set.
 
