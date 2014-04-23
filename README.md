@@ -20,7 +20,6 @@ Since the first version, the mathematical implementation has consisted in second
 Where:
 
 `VAR` -> fictitious variable created by a combination of the input variables raised to different exponents.
-
 `A`, `B` and `C` -> second degree polynomial coefficients calculated via regression on the training set.
 
 
