@@ -29,10 +29,11 @@ You can find more information about trendingBot 1.0 in: http://www.customsolvers
 Improvements in version 2.0
 ---------------------------
 
-* Version 1.0 was a mere calculation engine with no GUI. Version 2.0 is much more user-oriented.
+* It is much more user-oriented. Version 1.0 was a mere calculation engine with no GUI. 
+* It can also locate the best trends without specifying the variable to be predicted (`Variable to predict` -> `Find the best options`).
 * Much less computationally expensive: both CPU and memory usage are notably lower.
 * The suitable-trend determination is more reliable now.
-* Even though version 1.0 accounted for more combinations (i.e., higher number of exponential variations), version 2.0 considers a wider spectrum of situations (i.e., additions or logarithms); in any case, its algorithm can easily be extended to account for as many combinations as required.
+* Even though version 1.0 accounted for more combinations (i.e., higher number of exponential variations), version 2.0 considers a wider spectrum of situations (i.e., additions and logarithms). In any case, the new algorithm can easily be extended to account for as many combinations as required.
 
 
 Program
@@ -41,13 +42,21 @@ Program
 The GUI is intuitive and the code commented in detail. In any case, some clarifications might be required:
 
 * It relies on CSV files for I/O (i.e., "inputs.csv" and "outputs.csv"). Regarding "inputs.csv": it can have as many columns and rows as required; the first row is for column names; all the rows have to have the same number of columns (i.e., commas); commas are escaped when included between quotes (e.g., `"col1,col2", col3` represents 2 columns).
-* It accepts non-numerical inputs (i.e., categorical and date/time). The user will be prompted about what to do for each non-numerical column.
-* The user can input the expected accuracy level, that is: what thresholds should be considered while analysing potential trends (e.g., high expected accuracy means that only fits delivering a very low error would be considered).
+* It accepts non-numerical inputs (i.e., categorical and date/time). The user will be prompted what to do for each non-numerical column.
+* The user can input the expected accuracy level, that is: thresholds to be considered while analysing potential trends (e.g., high expected accuracy means that only fits delivering a very low error are considered).
 * Additionally to the output file (i.e., "outputs.csv"), all the results are displayed in the GUI. There is also a calculation functionality allowing the user to test all the output solutions.
 
 
 Recommendations of use
 ----------------------
+
+Since the first moment, trendingBot was created as a helping tool for numerical modellers. Although it has become quite powerful (its potential growth is virtually unlimited), its goal hasn't changed at all: it should only be used by experienced analysts.
+
+Some ideas to bear in mind:
+* "No trend was found" is as valid as any other output. Test this program only with datasets including variables (i.e., columns) expected to have some kind of relationship.
+* Even under the most permissive conditions (i.e., `Expected accuracy` -> `Low`), trendingBot looks only for reasonably solid trends.
+* The outliers-detection and out-of-sample understanding capabilities of the current version are still too limited (see Further work section). In any case, no extrapolation should be performed in any case, that is: no model should be used with values outside the minimum/maximum thresholds for each variable of the training set.
+* The weakest point of this approach will always be the computational expense/time requirements. You should always try to minimise this problem by accounting for a number of variables (i.e., columns) and cases (i.e., rows) as low as possible. Estimation of time requirements:
 
 TODO
 
