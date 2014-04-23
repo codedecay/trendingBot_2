@@ -21,7 +21,7 @@ Where:<br>
 `A`, `B` and `C` -> second degree polynomial coefficients calculated via regression on the training set.
 
 
-After the fits have been created, a "decision algorithm" comes into picture to determine which ones deliver the most adequate solution. 
+After the fits have been created, a "decision algorithm" comes into picture to determine which ones deliver the best performance. 
 
 You can find more information about trendingBot 1.0 in: http://www.customsolvers.com/trendingbot.html
 
