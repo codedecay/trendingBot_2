@@ -10,7 +10,7 @@ trendingBot
 
 Trend-finding tool based on the two following ideas:
 * Taking as much advantage as possible from the computational power. Consequently, its calculations are based on: detailed combinatorics and minimum number of simplifications.
-* Reducing the intervention of the user to its minimum expression. On the other hand, it should be noted that it is expected to be used by experienced analysts, who will apply their knowledge to maximse the output results.
+* Reducing the intervention of the user to its minimum expression. On the other hand, it should be noted that it is expected to be used by experienced analysts, who will apply their knowledge to maximise the output results.
 
 Since the first version, the mathematical implementation has consisted in second degree polynomial fits, whose dependent variable is the result of a detailed combinatorics process. That is: 
 
@@ -38,9 +38,9 @@ Improvements in version 2.0
 Program
 -------
 
-The GUI is intuitive and the code commented in detail. In any case, there are some basic ideas which should be beard in mind:
+The GUI is intuitive and the code commented in detail. In any case, some clarifications might be required:
 
-* It relies on CSV for I/O (i.e., "inputs.csv" and "outputs.csv"). Regarding "inputs.csv": it can have as many columns and rows as required; the first row is for column names; all the rows have to have the same number of columns (i.e., commas); commas are escaped when included between quotes (e.g., `"col1,cold2", col3` represents 2 columns).
+* It relies on CSV files for I/O (i.e., "inputs.csv" and "outputs.csv"). Regarding "inputs.csv": it can have as many columns and rows as required; the first row is for column names; all the rows have to have the same number of columns (i.e., commas); commas are escaped when included between quotes (e.g., `"col1,col2", col3` represents 2 columns).
 * It accepts non-numerical inputs (i.e., categorical and date/time). The user will be prompted about what to do for each non-numerical column.
 * The user can input the expected accuracy level, that is: what thresholds should be considered while analysing potential trends (e.g., high expected accuracy means that only fits delivering a very low error would be considered).
 * Additionally to the output file (i.e., "outputs.csv"), all the results are displayed in the GUI. There is also a calculation functionality allowing the user to test all the output solutions.
