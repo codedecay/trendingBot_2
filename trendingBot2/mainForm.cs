@@ -481,7 +481,7 @@ namespace trendingBot2
             curLstVw.Items.Add(curItem);
             
             curItem = new ListViewItem();
-            curItem.Text = "Max. aver. globsetDisplayInfoal error (%)";
+            curItem.Text = "Max. aver. global error (%)";
             curItem.SubItems.Add((curFitConfig.globalAver * 100).ToString("N0", Common.curCulture));
             curLstVw.Items.Add(curItem);
             
