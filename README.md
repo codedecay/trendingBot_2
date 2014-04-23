@@ -46,7 +46,7 @@ The GUI is intuitive and the code commented in detail. In any case, there are so
 * It relies on CSV for I/O (i.e., "inputs.csv" and "outputs.csv"). Regarding "inputs.csv": it can have as many columns and rows as required; the first row is for column names; all the rows have to have the same number of columns (i.e., commas); commas are escaped when included between quotes (e.g., `"col1,cold2", col3` represents 2 columns).
 * It accepts non-numerical inputs (i.e., categorical and date/time). The user will be prompted about what to do for each non-numerical column.
 * The user can input the expected accuracy level, that is: what thresholds should be considered while analysing potential trends (e.g., high expected accuracy means that only fits delivering a very low error would be considered).
-* Additionally to the output file (i.e., "outputs.csv"), all the results are displayed in the GUI. There is also a calculation functionality allowing the user to test all the output trends.
+* Additionally to the output file (i.e., "outputs.csv"), all the results are displayed in the GUI. There is also a calculation functionality allowing the user to test all the output solutions.
 
 
 Recommendations of use
