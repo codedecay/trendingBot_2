@@ -54,7 +54,7 @@ Since the first moment, trendingBot was created as a helping tool for numerical 
 
 Some ideas to bear in mind:
 * "No trend was found" has to be seen as a perfectly valid output. Test this program only with datasets including variables (i.e., columns) expected to have some kind of relationship.
-* Even under the most permissive conditions (i.e., `Expected accuracy` -> `Low`), trendingBot looks only for reasonably solid trends (>= 70% accuracy).
+* Even under the most permissive conditions (i.e., `Expected accuracy` -> `Low`), trendingBot looks only for reasonably solid trends (>= 65% accuracy).
 * The outliers-detection and out-of-sample understanding capabilities of the current version are still too limited (see "Further work" section). In any case, no extrapolation should be performed under any circumstance.
 * The weakest point of this approach will always be the computational expense/time requirements. This problem should be minimised by accounting for a number of variables (i.e., columns) and cases (i.e., rows) as low as possible. Estimation of time requirements:
 
