@@ -53,7 +53,7 @@ Recommendations of use
 Some ideas to bear in mind:
 * "No trend was found" has to be seen as a perfectly valid output. Test this program only with datasets including variables (i.e., columns) expected to have some kind of relationship.
 * Even under the most permissive conditions (i.e., `Expected accuracy` -> `Low`), trendingBot looks only for reasonably solid trends (>= 65% accuracy).
-* The outliers-detection and out-of-sample understanding capabilities of the current version are still not well developed (see "Further work" section). In any case, extrapolations should be avoided as much as possible.
+* The outlier-detection and out-of-sample understanding capabilities of the current version are still not well developed (see "Further work" section). In any case, extrapolations should be avoided as much as possible.
 * The weakest point of this approach is its computational expense/time requirements. This problem should be minimised with a proper definition of the training dataset, that is: as less variables/columns and cases/rows as possible. The table below shows how the size of the input dataset affects the time requirements.
 
 
@@ -85,6 +85,6 @@ Expected improvements:
 3. Regarding the algorithm, the most important issues to be improved are:
    * Combinations to create the fictitious dependent variables: a much higher range of variations for exponents and logarithms; it might also be worthy to include further scenarios (e.g., trigonometric functions). Further operations between variables should also be included (e.g., subtraction and division).
    * Type of fit to relate the dependent variables and the ones to be predicted: at least, 3rd degree polynomial and logarithmic fits should also be accounted for.
-   * Definition of valid trends: in the current version, this analysis is mainly focused on errors (i.e., current prediction with respect to real value). A solid outliers-detection algorithm should be included; additionally, the analysis of the corresponding data (valid predictions vs. real values) should consider a more reliable methodology than the current analysis of loosely-grouped errors, for example: a detailed sampling sub-algorithm.
+   * Definition of valid trends: in the current version, this analysis is mainly focused on errors (i.e., current prediction with respect to real value). A solid outlier-detection algorithm should be included; additionally, the analysis of the corresponding data (valid predictions vs. real values) should consider a more reliable methodology than the current analysis of loosely-grouped errors, for example: a detailed sampling sub-algorithm.
    * Trend rating: although the current structure (i.e., list of weighted assessment factors) does not need to be changed, the number and quality of the factors being considered should be notably improved. Note that there is no factor taking care of outside-of-sample mis-behaviours, what might be very helpful to track over-fitting. For example: with a training set given by 1,2,3 -> 4,5,6, a fit delivers a good in-sample performance; but when 4 is input, the calculated value is -99. The current code wouldn't detect any anomaly here.
 
