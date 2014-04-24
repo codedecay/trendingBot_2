@@ -77,6 +77,7 @@ Further work
 The current code can only be seen as a detailed description of a different way to face multivariate problems. The main goal of this repository (the structure of the code and even the user-friendly GUI) is helping anyone interested in getting a solid grasp about the potentiality of this approach.
 
 Expected improvements:
+
 1. In the current code, the main focus has been put on clarity (i.e., code structure and GUI); although this is acceptable under the current conditions, it does not address the main problem of this approach (i.e., being too computationally expensive). Thus the first issue to take care of is maximising the efficiency of the algorithm: firstly by making the most time-consuming part (i.e., combinatorics loops) as efficient as possible; and secondly by including some hardware-optimisation approaches (e.g., parallelisation).
 
 2. Even after performing the improvements in the previous point, this approach might not be fully maximised without the most adequate hardware. Since the start, it was assumed that trendingBot was meant to be run on clusters.
