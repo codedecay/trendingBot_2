@@ -63,7 +63,7 @@ No. of cases (rows) |  |  |  |
 30 | One variable to predict | < 1 minute | < 1 minute |  1:11
  | Find the best options | < 1 minute | < 1 minute | 9:31 
 100 | One variable to predict | < 1 minute | < 1 minute | 3:34  
- | Find the best options | < 1 minute | < 1 minute  |  
+ | Find the best options | < 1 minute | < 1 minute  |  29:41
 1000 | One variable to predict | < 1 minute | 2:29  |  
  | Find the best options | < 1 minute | 17:34 |  
 
