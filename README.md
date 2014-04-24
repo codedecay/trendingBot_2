@@ -80,6 +80,7 @@ Expected improvements:
 1. In the current code, the main focus has been put on clarity (i.e., code structure and GUI); although this is acceptable under the current conditions, it does not address the main problem of this approach (i.e., being too computationally expensive). Thus the first issue to take care of is maximising the efficiency of the algorithm: firstly by making the most time-consuming part (i.e., combinatorics loops) as efficient as possible; and secondly by including some hardware-optimisation approaches (e.g., parallelisation).
 
 2. Even after performing the improvements in the previous point, this approach might not be fully maximised without the most adequate hardware. Since the start, it was assumed that trendingBot was meant to be run on clusters.
+
 3. Regarding the algorithm, the most important issues to be improved are:
    * Combinations to create the fictitious dependent variables: a much higher range of variations for exponents and logarithms; it might also be worthy to include further scenarios (e.g., trigonometric functions). Further operations between variables should also be included (e.g., substraction or division).
    * Type of fit to relate the dependent variables and the ones to be predicted: at least, 3rd degree polynomial and logarithmic fits should be added.
