@@ -57,12 +57,14 @@ Some ideas to bear in mind:
 * The weakest point of this approach is its computational expense/time requirements. This problem should be minimised with a proper definition of the training dataset, that is: as less variables/columns and cases/rows as possible. The table below shows how the size of the input dataset affects the time requirements.
 
 ** | No. of variables (columns) | 4 | 5 | 6 
-:----:|:---:|:---:|:---:|:---:
+----|:---:|:---:|:---:|:---:
 No. of cases (rows) |  |  |  | 
-30 | 1 var | | |  
- | all vars | |  |  
-100 |  |  |  |   
-1000 |  |  |  |  
+30 | One variable | < 1 minute | < 1 minute |  1:11
+ | All variables | < 1 minute | < 1 minute | 9:31 
+100 | One variable | < 1 minute | < 1 minute | 3:34  
+ | All variables | < 1 minute | < 1 minute  |  
+1000 | One variable | < 1 minute | 2:29  |  
+ | All variables | < 1 minute | 17:34 |  
 
 
 Further work
