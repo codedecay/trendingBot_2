@@ -56,9 +56,9 @@ Some ideas to bear in mind:
 * The outliers-detection and out-of-sample understanding capabilities of the current version are still not well developed (see "Further work" section). In any case, extrapolations should be avoided as much as possible.
 * The weakest point of this approach is its computational expense/time requirements. This problem should be minimised with a proper definition of the training dataset, that is: as less variables/columns and cases/rows as possible. The table below shows how the size of the input dataset affects the time requirements.
 
- No. of variables (columns) | 4 | 5 | 6
---- | --- | --- | ---
-No. of cases (rows) |  |  | 
+No. of cases (rows) | No. of variables (columns) |  | 4 | 5 | 6
+--- | --- | --- | --- | ---
+No. of cases (rows) |  |  |  |  
 
 
 
