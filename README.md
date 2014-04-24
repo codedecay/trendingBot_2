@@ -65,7 +65,7 @@ No. of cases (rows) |  |  |  |
 100 | One variable to predict | < 1 minute | < 1 minute | 00:03:34  
  | Find the best options | < 1 minute | < 1 minute  |  00:29:41
 1000 | One variable to predict | < 1 minute | 00:02:29  | 00:34:57  
- | Find the best options | < 1 minute | 00:17:34 |  
+ | Find the best options | < 1 minute | 00:17:34 |  05:09:53 
 
 NOTE: tested on a 7-core Intel Pentium @ 3.40GHz and 12GB RAM under normal load conditions.<br>
 NOTE 2: an in-the-worst-scenario dataset was tested (i.e., many valid trends present).
