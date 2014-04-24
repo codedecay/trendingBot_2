@@ -59,7 +59,9 @@ Some ideas to bear in mind:
 No. of variables (columns) -> | 4 | 5 | 6 
  --- | --- | --- | --- 
 No. of cases (rows) |  |  | 
-30 |  |  |  
+30 | | |  |  
+30 | --- | --- |  | 
+30 | | |  |  
 100 |  |  |   
 1000 |  |  |   
 
