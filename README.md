@@ -10,7 +10,7 @@ trendingBot
 
 Trend-finding tool based on the two following ideas:
 * Taking as much advantage as possible from the computational power. Consequently, its calculations are based on: detailed combinatorics and minimum number of simplifications.
-* Reducing the intervention of the user to its minimum expression. In any csse, note that trendingBot is target to experienced analysts; that is: users are not expected to participate in the calculations but in the proper interpretation of the output results.
+* Reducing the intervention of the user to its minimum expression. In any case, note that trendingBot is target to experienced analysts; that is: users are not expected to participate in the calculations but in the proper interpretation of the output results.
 
 The mathematical implementation of the aforementioned ideas is given by second degree polynomial fits, whose dependent variables are the result of a detailed combinatorics process.
 
