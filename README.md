@@ -60,12 +60,12 @@ Some ideas to bear in mind:
 ** | No. of variables (columns) | 4 | 5 | 6 
 ----|:---:|:---:|:---:|:---:
 No. of cases (rows) |  |  |  | 
-30 | One variable | < 1 minute | < 1 minute |  1:11
- | All variables | < 1 minute | < 1 minute | 9:31 
-100 | One variable | < 1 minute | < 1 minute | 3:34  
- | All variables | < 1 minute | < 1 minute  |  
-1000 | One variable | < 1 minute | 2:29  |  
- | All variables | < 1 minute | 17:34 |  
+30 | One variable to predict | < 1 minute | < 1 minute |  1:11
+ | Find the best options | < 1 minute | < 1 minute | 9:31 
+100 | One variable to predict | < 1 minute | < 1 minute | 3:34  
+ | Find the best options | < 1 minute | < 1 minute  |  
+1000 | One variable to predict | < 1 minute | 2:29  |  
+ | Find the best options | < 1 minute | 17:34 |  
 
 
 Further work
