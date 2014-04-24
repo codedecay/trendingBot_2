@@ -75,7 +75,7 @@ namespace trendingBot2
                     curSign = "×"; 
                 }
             }
-            else if (curOperation == Operation.Substraction)
+            else if (curOperation == Operation.Subtraction)
             {
                 curSign = "-";
             }

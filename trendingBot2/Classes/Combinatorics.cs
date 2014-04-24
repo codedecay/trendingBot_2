@@ -521,5 +521,5 @@ namespace trendingBot2
         }
     }
 
-    public enum Operation {Multiplication, Addition, Substraction};
+    public enum Operation {Multiplication, Addition, Subtraction};
 }

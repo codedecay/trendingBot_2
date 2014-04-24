@@ -141,7 +141,7 @@ namespace trendingBot2
                 Operation curOperation = Operation.Addition;
                 if (curCoeff < 0)
                 {
-                    curOperation = Operation.Substraction;
+                    curOperation = Operation.Subtraction;
                     curVal = Math.Abs(curVal);
                 }
                 rtbOperation(curOperation);
