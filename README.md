@@ -58,7 +58,7 @@ Some ideas to bear in mind:
 
 
 ** | No. of variables (columns) | 4 | 5 | 6 
-----|--- :---:|:---:|:---:
+----|---|:---:|:---:|:---:
 No. of cases (rows) |  |  |  | 
 30 | One variable to predict | < 1 minute | < 1 minute |  00:01:11
  | Find the best options | < 1 minute | < 1 minute | 00:09:31 
