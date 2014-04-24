@@ -59,7 +59,6 @@ Some ideas to bear in mind:
 
 ** | No. of variables (columns) | 4 | 5 | 6 
 ----|:---:|:---:|:---:|:---:
-one row | asd
 No. of cases (rows) |  |  |  | 
 30 | One variable | < 1 minute | < 1 minute |  1:11
  | All variables | < 1 minute | < 1 minute | 9:31 
