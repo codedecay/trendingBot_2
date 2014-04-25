@@ -10,7 +10,7 @@ trendingBot
 
 Trend-finding tool based on the two following ideas:
 * Taking as much advantage as possible from the computational power. Consequently, its calculations are based on: detailed combinatorics and minimum number of simplifications.
-* Reducing the intervention of the user to its minimum expression. In any case, note that trendingBot is target to experienced analysts; that is: users are not expected to participate in the calculations but in the proper interpretation of the output results.
+* Reducing the intervention of the user to its minimum expression. In any case, it should be noted that trendingBot is target to experienced analysts; users are not expected to participate in the calculations but in the proper interpretation of the output results.
 
 The mathematical implementation of the aforementioned ideas is given by second degree polynomial fits, whose dependent variables are the result of a detailed combinatorics process.
 
@@ -30,10 +30,10 @@ Improvements in version 2.0
 ---------------------------
 
 * Much more user-oriented. Version 1.0 was a mere calculation engine with no GUI. 
-* Can also find the best trends without specifying the variable to be predicted (`Variable to predict` -> `Find the best options`).
+* Can find the best trends in the dataset without specifying the variable to be predicted (`Variable to predict` -> `Find the best options`).
 * Much less computationally expensive: both CPU and memory usage are notably lower.
-* The sub-algorithm in charge of determining the most suitable trends is now more complex, extensible and reliable.
-* The combinations are formed on account of a wider spectrum of operations (i.e., additions and logarithms). 
+* The determination of the most suitable trends is now more complex, extensible and reliable.
+* The combinations are formed on account of a wider spectrum of operations. 
 
 
 Program
@@ -49,6 +49,8 @@ The GUI is intuitive and the code commented in detail. In any case, some clarifi
 
 Recommendations of use
 ----------------------
+
+trendingBot is expected to be used by experienced numerical modellers as a helping tool in their work. It shouldn't ever be used as an automatic predictor on blind datasets.
 
 Some ideas to bear in mind:
 * "No trend was found" has to be seen as a perfectly valid output. Test this program only with datasets including variables (i.e., columns) expected to have some kind of relationship.
@@ -74,17 +76,19 @@ NOTE 2: an in-the-worst-scenario dataset was tested (i.e., many valid trends pre
 Further work
 ------------
 
-Note that the current code should be seen as a detailed description of trendingBot's approach, that is: a different way to face multivariate problems. The main goal of this repository (the structure of the code and even the user-friendly GUI) is helping anyone interested in getting a solid grasp about the potentiality of this methodology.
+The current code should be seen as a detailed description of trendingBot's approach (whose potential for growth is virtually unlimited), more than as a final version. Thus, the main goal of this repository (the structure of the code and even the user-friendly GUI) is helping anyone interested in getting a solid grasp about this methodology.
 
 Expected improvements:
 
 1. In the current code, the main focus has been put on clarity (i.e., code structure and GUI); although this is acceptable under the current conditions, it does not address the main problem of this approach (i.e., being too computationally expensive). Thus, a major issue to take care of is maximising the efficiency of the algorithm: firstly by making the most time-consuming part (i.e., combinatorics loops) as efficient as possible; and secondly by including some hardware-optimisation techniques (e.g., parallelisation).
 
-2. Even after performing the improvements in the previous point, this approach might not be fully maximised without the most adequate hardware. It should be noted that, since the first moment, trendingBot was expected to be run on clusters.
+2. Even after performing the improvements in the previous point, this approach can be fully maximised with the adequate hardware. It should be noted that, since the first moment, trendingBot was expected to be run on clusters.
 
 3. Regarding the algorithm, the most important issues to be improved are:
-   * Combinations to create the fictitious dependent variables: a much higher range of variations for exponents and logarithms; it might also be worthy to include further scenarios (e.g., trigonometric functions). Further operations between variables should also be included (e.g., subtraction and division).
-   * Type of fit to relate the dependent variables and the ones to be predicted: at least, 3rd degree polynomial and logarithmic fits should also be accounted for.
+   * Combinations to create the fictitious dependent variables: a much higher range of variations for exponents and logarithms should be accounted for; it might also be worthy to include further scenarios (e.g., trigonometric functions). Additional operations between variables can also be added (e.g., subtraction and division).
+   * Type of fit relating the dependent variables and the ones to be predicted: at least, 3rd degree polynomial and logarithmic fits should also be accounted for.
    * Definition of valid trends: in the current version, this analysis is mainly focused on errors (i.e., current prediction with respect to real value). A solid outlier-detection algorithm should be included; additionally, the analysis of the corresponding data (valid predictions vs. real values) should consider a more reliable methodology than the current analysis of loosely-grouped errors, for example: a detailed sampling sub-algorithm.
-   * Trend rating: although the current structure (i.e., list of weighted assessment factors) does not need to be changed, the number and quality of the factors being considered should be notably improved. Note that there is no factor taking care of outside-of-sample mis-behaviours, what might be very helpful to track over-fitting. For example: with a training set given by 1,2,3 -> 4,5,6, a fit delivers a good in-sample performance; but when 4 is input, the calculated value is -99. The current code wouldn't detect any anomaly here.
+   * Trend rating: although the current structure (i.e., list of weighted assessment factors) does not need to be changed, the number and quality of the factors being considered should be notably improved. Note that there is no factor taking care of outside-of-sample mis-behaviours, what might be very helpful to track over-fitting. For example: training set given by 1,2,3 -> 4,5,6; fit delivering a good in-sample performance; but when 4 is input, the calculated value is -99. The current code wouldn't detect any anomaly here.
+
+In summary, the current version is certainly powerful but it does still represent a tiny fraction of what this approach can potentially deliver. That's why making it publicly available: helping anyone with the will, the knowledge and the **resources** to continue this development.
 
