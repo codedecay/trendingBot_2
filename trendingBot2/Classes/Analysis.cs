@@ -294,6 +294,7 @@ namespace trendingBot2
             if (curValidComb.assessment.globalRating == 10.0)
             {
                 //Perfect situation
+                curValidComb.assessment.factors[0].weight = 100.0;
                 curValidComb.averError = 0.0;
                 return curValidComb;
             }
