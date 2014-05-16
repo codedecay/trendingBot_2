@@ -9,21 +9,21 @@ trendingBot
 -----------
 
 Trend-finding tool based on the two following ideas:
-* Taking as much advantage as possible from the computational power. Consequently, its calculations are based on: detailed combinatorics and minimum number of simplifications.
-* Reducing the intervention of the user to its minimum expression. In any case, it should be noted that trendingBot is target to experienced analysts; users are not expected to participate in the calculations but in the proper interpretation of the output results.
+* Taking as much advantage as possible from the available computational power. Consequently, its calculations are based on: detailed combinatorics and minimum number of simplifications.
+* Reducing the intervention of the user to its minimum expression. In any case, it should be noted that trendingBot is target to experienced analysts: users are not expected to participate in the calculations, but in the proper interpretation of the output results.
 
 The mathematical implementation of the aforementioned ideas is given by second degree polynomial fits, whose dependent variables are the result of a detailed combinatorics process.
 
 `prediction = A + B*VAR + C*VAR^2`
 
 Where:<br>
-`VAR` -> fictitious variable created by a combination of the input variables raised to different exponents.<br>
+`VAR` -> fictitious variable created by a combination of modified versions of the input variables (e.g., raised to different exponents).<br>
 `A`, `B` and `C` -> second degree polynomial coefficients calculated via regression on the training set.
 
 
 After the fits have been created, a "decision algorithm" comes into picture to determine which ones deliver the best performance. 
 
-For more information about trendingBot 1.0 visit: http://www.customsolvers.com/trendingbot.html
+For more information about trendingBot 1.0, visit: http://www.customsolvers.com/trendingbot.html
 
 
 Improvements in version 2.0
@@ -86,9 +86,9 @@ Expected improvements:
 
 3. Regarding the algorithm, the most important issues to be improved are:
    * Combinations to create the fictitious dependent variables: a much higher range of variations for exponents and logarithms should be accounted for; it might also be worthy to include further scenarios (e.g., trigonometric functions). Additional operations between variables can also be added (e.g., subtraction and division).
-   * Type of fit relating the dependent variables and the ones to be predicted: at least, 3rd degree polynomial and logarithmic fits should also be accounted for.
-   * Definition of valid trends: in the current version, this analysis is mainly focused on errors (i.e., current prediction with respect to real value). A solid outlier-detection algorithm should be included; additionally, the analysis of the corresponding data (valid predictions vs. real values) should consider a more reliable methodology than the current analysis of loosely-grouped errors, for example: a detailed sampling sub-algorithm.
-   * Trend rating: although the current structure (i.e., list of weighted assessment factors) does not need to be changed, the number and quality of the factors being considered should be notably improved. Note that there is no factor taking care of outside-of-sample misbehaviours, what might be very helpful to track overfitting. For example: training set given by 1,2,3 -> 4,5,6; fit delivering a good in-sample performance; it delivers -99 when 4 is input. trendingBot 2.0 wouldn't detect any anomaly here.
+   * Type of fit to relate the dependent variables and the ones to be predicted: at least, 3rd degree polynomial and logarithmic fits should also be accounted for.
+   * Definition of valid trends: in the current version, this analysis is mainly focused on errors (i.e., current prediction with respect to real value). A solid outlier-detection algorithm should be included; additionally, the analysis of the corresponding data (valid predictions vs. real values) should consider a more reliable methodology than the current analysis of loosely-grouped errors (e.g., a detailed sampling sub-algorithm).
+   * Trend rating: although the current structure (i.e., list of weighted assessment factors) does not need to be changed, the number and quality of the factors being considered should be notably improved. Note that there is no factor taking care of outside-of-sample misbehaviours, what might be very helpful to track overfitting. For example: training set given by (dependent) 1,2,3 -> (independent) 4,5,6; fit delivering a good in-sample performance, but outputting (independent) -99 when 4 is input. trendingBot 2.0 wouldn't detect any anomaly here.
 
 In summary, the current version is certainly powerful but it does still represent a tiny fraction of what this approach can potentially deliver. That's why making it publicly available: helping anyone with the will, the knowledge and the **resources** to continue this development.
 
